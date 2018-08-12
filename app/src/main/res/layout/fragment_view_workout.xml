@@ -1,0 +1,25 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.koml2.fitassist.viewworkout.ViewWorkoutFragment">
+
+    <EditText
+            android:id="@+id/et_exercise_list"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"/>
+
+    <Button
+            android:id="@+id/btn_exercise_list_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/et_exercise_list"
+            android:text="@string/add"/>
+
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_exercise_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/et_exercise_list"/>
+
+</RelativeLayout>
