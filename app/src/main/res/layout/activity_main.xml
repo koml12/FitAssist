@@ -7,10 +7,18 @@
         android:layout_height="match_parent"
         tools:context="com.koml2.fitassist.MainActivity">
 
-    <LinearLayout
+    <FrameLayout
+            android:id="@+id/fragment_view_workout_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/fragment_view_workout_container"
-            android:orientation="vertical"/>
+            android:orientation="vertical"
+    />
+
+    <FrameLayout
+            android:id="@+id/fragment_add_exercise_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+    />
 
 </android.support.constraint.ConstraintLayout>

@@ -28,6 +28,10 @@ public class ViewWorkoutPresenter implements ViewWorkoutContract.Presenter {
 
     @Override
     public void handleAddButtonClick(String name) {
+        mWorkoutView.startAddExercise();
+
+        /*
+        Adds inside the current fragment, which we don't want.
 
         Exercise exercise = new Exercise();
         exercise.setName(name);
@@ -38,7 +42,7 @@ public class ViewWorkoutPresenter implements ViewWorkoutContract.Presenter {
 
         AddExerciseTask addExerciseTask = new AddExerciseTask(exercise, mWorkoutView);
         addExerciseTask.execute(mExerciseRepository);
-
+        */
     }
 
     @Override

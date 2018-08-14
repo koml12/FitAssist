@@ -1,8 +1,10 @@
 package com.koml2.fitassist.viewworkout;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,16 +12,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import com.koml2.fitassist.R;
+import com.koml2.fitassist.addexercise.AddExerciseFragment;
+import com.koml2.fitassist.addexercise.AddExercisePresenter;
 import com.koml2.fitassist.data.Exercise;
+import com.koml2.fitassist.data.ExerciseRepository;
 
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ViewWorkoutFragment.OnFragmentInteractionListener} interface
+ * {@link ViewWorkoutFragment} interface
  * to handle interaction events.
  * Use the {@link ViewWorkoutFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -64,8 +68,12 @@ public class ViewWorkoutFragment extends Fragment implements ViewWorkoutContract
     @Override
     public void onStart() {
         super.onStart();
-        mExerciseRecyclerView = (RecyclerView) getView().findViewById(R.id.rv_exercise_list);
-        mAddExerciseButton = getView().findViewById(R.id.btn_exercise_list_add);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        mExerciseRecyclerView = view.findViewById(R.id.rv_view_workout_exercise_list);
+        mAddExerciseButton = view.findViewById(R.id.btn_view_workout_add_exercise);
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         mExerciseRecyclerView.setLayoutManager(mLayoutManager);
@@ -75,16 +83,11 @@ public class ViewWorkoutFragment extends Fragment implements ViewWorkoutContract
         mAddExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onAddButtonClick(view);
+                startAddExercise();
             }
         });
 
         mPresenter.loadExercises();
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
     }
 
     @Override
@@ -116,8 +119,23 @@ public class ViewWorkoutFragment extends Fragment implements ViewWorkoutContract
 
     @Override
     public void onAddButtonClick(View view) {
-        EditText mAddExerciseEditText = getView().findViewById(R.id.et_exercise_list);
-        mPresenter.handleAddButtonClick(mAddExerciseEditText.getText().toString());
+
+    }
+
+    @Override
+    public void startAddExercise() {
+        AddExerciseFragment addExerciseFragment = AddExerciseFragment.newInstance();
+
+        AddExercisePresenter addExercisePresenter = new AddExercisePresenter(
+                ExerciseRepository.getInstance(getActivity().getApplicationContext()),
+                addExerciseFragment);
+
+        FragmentManager manager = getActivity().getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.fragment_add_exercise_container, addExerciseFragment);
+        transaction.detach(this);
+        transaction.commit();
+
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.koml2.fitassist.data;
 
 import android.arch.persistence.room.*;
-import io.reactivex.Flowable;
 
 import java.util.List;
 

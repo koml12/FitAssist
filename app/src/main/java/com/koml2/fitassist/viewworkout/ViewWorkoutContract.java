@@ -1,6 +1,5 @@
 package com.koml2.fitassist.viewworkout;
 
-import android.view.View;
 import com.koml2.fitassist.BasePresenter;
 import com.koml2.fitassist.BaseView;
 import com.koml2.fitassist.data.Exercise;
@@ -14,6 +13,8 @@ public interface ViewWorkoutContract {
         void showExercises(List<Exercise> exercises);
 
         void onAddButtonClick(android.view.View view);
+
+        void startAddExercise();
     }
 
     interface Presenter extends BasePresenter {
