@@ -4,7 +4,6 @@ This repo is an extension of the [Workout Tracker](https://github.com/koml12/Wor
  
  
 ## To Do
-+ Make a separate screen to add exercises, and let the user specify all possible fields.
 + Separate screen that guides the user through the workout (like the one in WorkoutTracker, but without the bugs).
 + Multiple workout support
 + Rep range support, i.e. instead of a whole number for reps each time, have a range that the user can manully input every time.
