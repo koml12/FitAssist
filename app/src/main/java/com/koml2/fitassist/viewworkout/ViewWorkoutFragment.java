@@ -106,7 +106,7 @@ public class ViewWorkoutFragment extends Fragment implements ViewWorkoutContract
     @Override
     public void showExercises(List<Exercise> exercises) {
         if (mAdapter == null) {
-            mAdapter = new ViewWorkoutAdapter(exercises);
+            mAdapter = new ViewWorkoutAdapter(exercises, getActivity(), this);
             mExerciseRecyclerView.setAdapter(mAdapter);
             Log.d("DEBUG", "showExercises");
 
@@ -132,8 +132,8 @@ public class ViewWorkoutFragment extends Fragment implements ViewWorkoutContract
 
         FragmentManager manager = getActivity().getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.fragment_add_exercise_container, addExerciseFragment);
-        transaction.detach(this);
+        transaction.add(R.id.fragment_add_exercise_container, addExerciseFragment).addToBackStack(null);
+        transaction.hide(this);
         transaction.commit();
 
     }

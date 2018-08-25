@@ -41,4 +41,7 @@ public class ExerciseRepository {
         return mExerciseDao.getAllExercises();
     }
 
+    public Exercise getExerciseById(int id) {
+        return mExerciseDao.getExerciseById(id);
+    }
 }

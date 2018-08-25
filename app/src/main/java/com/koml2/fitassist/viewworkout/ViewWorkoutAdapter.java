@@ -1,31 +1,43 @@
 package com.koml2.fitassist.viewworkout;
 
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.koml2.fitassist.R;
 import com.koml2.fitassist.data.Exercise;
+import com.koml2.fitassist.data.ExerciseRepository;
+import com.koml2.fitassist.editdeleteexercise.EditDeleteExerciseFragment;
+import com.koml2.fitassist.editdeleteexercise.EditDeleteExercisePresenter;
 
 import java.util.List;
 
 public class ViewWorkoutAdapter extends RecyclerView.Adapter<ViewWorkoutAdapter.ViewHolder> {
     private List<Exercise> mExerciseList;
+    private Context mContext;
+    private ViewWorkoutFragment mView;
 
     public void setExerciseList(List<Exercise> exercises) {
         mExerciseList = exercises;
     }
 
 
-    public ViewWorkoutAdapter(List<Exercise> exercises) {
+    public ViewWorkoutAdapter(List<Exercise> exercises, Context context, ViewWorkoutFragment view) {
         mExerciseList = exercises;
+        mContext = context;
+        mView = view;
     }
 
     @Override
     public ViewWorkoutAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.exercise_item, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, mExerciseList.get(i), mContext, mView);
     }
 
     @Override
@@ -46,6 +58,10 @@ public class ViewWorkoutAdapter extends RecyclerView.Adapter<ViewWorkoutAdapter.
         repsSetsTextView.setText(repsSetsString);
         restTimeTextView.setText(String.valueOf(exercise.getRestTime()));
         notesTextView.setText(exercise.getNotes());
+
+
+        viewHolder.setExercise(mExerciseList.get(position));
+
     }
 
     @Override
@@ -60,9 +76,45 @@ public class ViewWorkoutAdapter extends RecyclerView.Adapter<ViewWorkoutAdapter.
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View mView;
-        public ViewHolder(View view) {
+        private ViewWorkoutFragment mFragment;
+        private Context mContext;
+        private Exercise mExercise;
+
+        public void setExercise(Exercise exercise) {
+            mExercise = exercise;
+        }
+
+        public ViewHolder(View view, Exercise exercise, Context context, ViewWorkoutFragment fragment) {
             super(view);
             mView = view;
+            mFragment = fragment;
+            mContext = context;
+            mExercise = exercise;
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int id = mExercise.getId();
+
+                    Log.d("DEBUG", "exerciseID: " + id);
+
+                    EditDeleteExerciseFragment fragment = EditDeleteExerciseFragment.newInstance(id);
+
+                    EditDeleteExercisePresenter presenter =
+                            new EditDeleteExercisePresenter(ExerciseRepository.getInstance(mContext), fragment);
+
+
+                    FragmentManager manager = ((Activity) mContext).getFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    transaction.add(R.id.fragment_edit_delete_exercise_container, fragment).addToBackStack(null);
+                    transaction.hide(mFragment);
+                    transaction.commit();
+
+                }
+            });
+
         }
     }
+
+
 }

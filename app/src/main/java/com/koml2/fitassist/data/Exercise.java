@@ -10,6 +10,20 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity(tableName = "exercises")
 public class Exercise {
 
+    public Exercise() {
+    }
+
+    public Exercise(int id, String name, int sets, int reps, int restTime, String notes) {
+        setId(id);
+        setName(name);
+        setSets(sets);
+        setReps(reps);
+        setRestTime(restTime);
+        setNotes(notes);
+    }
+
+
+
     /**
      * Unique integer id for an exercise.
      */

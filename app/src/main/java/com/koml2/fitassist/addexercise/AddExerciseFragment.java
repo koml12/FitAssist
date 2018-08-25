@@ -111,7 +111,7 @@ public class AddExerciseFragment extends Fragment implements AddExerciseContract
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.detach(this);
-        transaction.replace(R.id.fragment_view_workout_container, viewWorkoutFragment);
+        transaction.replace(R.id.fragment_view_workout_container, viewWorkoutFragment).addToBackStack(null);
         transaction.commit();
     }
 
