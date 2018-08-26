@@ -36,12 +36,24 @@ public class EditDeleteExercisePresenter implements EditDeleteExerciseContract.P
 
     @Override
     public void handleUpdateClick(int id, String name, String setsStr, String repsStr, String restTimeStr, String notes) {
+        int sets = Integer.parseInt(setsStr);
+        int reps = Integer.parseInt(repsStr);
+        int restTime = Integer.parseInt(restTimeStr);
 
+        Exercise exercise = new Exercise(id, name, sets, reps, restTime, notes);
+        UpdateExerciseTask updateExerciseTask = new UpdateExerciseTask(mEditDeleteExerciseView, exercise);
+        updateExerciseTask.execute(mExerciseRepository);
     }
 
     @Override
     public void handleDeleteClick(int id, String name, String setsStr, String repsStr, String restTimeStr, String notes) {
+        int sets = Integer.parseInt(setsStr);
+        int reps = Integer.parseInt(repsStr);
+        int restTime = Integer.parseInt(restTimeStr);
 
+        Exercise exercise = new Exercise(id, name, sets, reps, restTime, notes);
+        DeleteExerciseTask deleteExerciseTask = new DeleteExerciseTask(mEditDeleteExerciseView, exercise);
+        deleteExerciseTask.execute(mExerciseRepository);
     }
 
     @Override
@@ -70,6 +82,58 @@ public class EditDeleteExercisePresenter implements EditDeleteExerciseContract.P
         protected void onPostExecute(Exercise exercise) {
             super.onPostExecute(exercise);
             mView.setExerciseDataValues(exercise);
+        }
+    }
+
+    /**
+     * Task handler for updating an exercise's information.
+     * Sends the user back to the exercise list after the operation was completed.
+     */
+    public static class UpdateExerciseTask extends AsyncTask<ExerciseRepository, Void, Void> {
+        private EditDeleteExerciseContract.View mView;
+        private Exercise mExercise;
+
+        UpdateExerciseTask(EditDeleteExerciseContract.View view, Exercise exercise) {
+            mView = view;
+            mExercise = exercise;
+        }
+
+        @Override
+        protected Void doInBackground(ExerciseRepository... exerciseRepositories) {
+            exerciseRepositories[0].updateExercise(mExercise);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            mView.goToExerciseList();
+        }
+    }
+
+    /**
+     * Task handler for deleting an exercise from the list.
+     * Sends the user back to the exercise list when the task has been completed.
+     */
+    public static class DeleteExerciseTask extends AsyncTask<ExerciseRepository, Void, Void> {
+        private EditDeleteExerciseContract.View mView;
+        private Exercise mExercise;
+
+        DeleteExerciseTask(EditDeleteExerciseContract.View view, Exercise exercise) {
+            mView = view;
+            mExercise = exercise;
+        }
+
+        @Override
+        protected Void doInBackground(ExerciseRepository... exerciseRepositories) {
+            exerciseRepositories[0].deleteExercise(mExercise);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            mView.goToExerciseList();
         }
     }
 }

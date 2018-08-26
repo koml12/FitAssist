@@ -1,5 +1,7 @@
 package com.koml2.fitassist.editdeleteexercise;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
@@ -11,6 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import com.koml2.fitassist.R;
 import com.koml2.fitassist.data.Exercise;
+import com.koml2.fitassist.data.ExerciseRepository;
+import com.koml2.fitassist.viewworkout.ViewWorkoutFragment;
+import com.koml2.fitassist.viewworkout.ViewWorkoutPresenter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,7 +58,6 @@ public class EditDeleteExerciseFragment extends Fragment implements EditDeleteEx
      * @param exerciseId  Primary key ID of the selected exercise.
      * @return A new instance of fragment EditDeleteExerciseFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static EditDeleteExerciseFragment newInstance(int exerciseId) {
         EditDeleteExerciseFragment fragment = new EditDeleteExerciseFragment();
         Bundle args = new Bundle();
@@ -131,17 +135,30 @@ public class EditDeleteExerciseFragment extends Fragment implements EditDeleteEx
 
     @Override
     public void onUpdateClick(String name, String setsStr, String repsStr, String restTimeStr, String notes) {
+        mPresenter.handleUpdateClick(mExerciseId, name, setsStr, repsStr, restTimeStr, notes);
 
     }
 
     @Override
     public void onDeleteClick(String name, String setsStr, String repsStr, String restTimeStr, String notes) {
-
+        mPresenter.handleDeleteClick(mExerciseId, name, setsStr, repsStr, restTimeStr, notes);
     }
 
+    @SuppressWarnings("Duplicates")
     @Override
     public void goToExerciseList() {
+        ViewWorkoutFragment viewWorkoutFragment = ViewWorkoutFragment.newInstance();
+        ViewWorkoutPresenter presenter = new ViewWorkoutPresenter(
+                ExerciseRepository.getInstance(getActivity().getApplicationContext()),
+                viewWorkoutFragment
+        );
 
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+
+        transaction.detach(this);
+        transaction.replace(R.id.fragment_view_workout_container, viewWorkoutFragment).addToBackStack(null);
+        transaction.commit();
     }
 
     @Override

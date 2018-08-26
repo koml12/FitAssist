@@ -39,7 +39,6 @@ public class AddExerciseFragment extends Fragment implements AddExerciseContract
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static AddExerciseFragment newInstance() {
         return new AddExerciseFragment();
     }
@@ -100,6 +99,7 @@ public class AddExerciseFragment extends Fragment implements AddExerciseContract
 
     }
 
+    @SuppressWarnings("Duplicates")
     @Override
     public void goBackToViewWorkout() {
         ViewWorkoutFragment viewWorkoutFragment = ViewWorkoutFragment.newInstance();

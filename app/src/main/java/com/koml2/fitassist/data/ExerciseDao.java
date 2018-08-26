@@ -24,6 +24,4 @@ public interface ExerciseDao {
 
     @Query("SELECT * FROM exercises WHERE _id = :id")
     Exercise getExerciseById(int id);
-
-    // TODO: maybe add methods where you can search for exercises by other fields.
 }
