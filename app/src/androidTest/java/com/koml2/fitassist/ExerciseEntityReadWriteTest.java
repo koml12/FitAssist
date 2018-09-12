@@ -4,9 +4,9 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import com.koml2.fitassist.data.Exercise;
-import com.koml2.fitassist.data.ExerciseDao;
-import com.koml2.fitassist.data.ExerciseDatabase;
+import com.koml2.fitassist.data.FitAssistDatabase;
+import com.koml2.fitassist.data.exercise.Exercise;
+import com.koml2.fitassist.data.exercise.ExerciseDao;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,18 +17,18 @@ import org.junit.runner.RunWith;
 public class ExerciseEntityReadWriteTest {
 
     private ExerciseDao mExerciseDao;
-    private ExerciseDatabase mExerciseDatabase;
+    private FitAssistDatabase mFitAssistDatabase;
 
     @Before
     public void createDb() {
         Context context = InstrumentationRegistry.getTargetContext();
-        mExerciseDatabase = Room.inMemoryDatabaseBuilder(context, ExerciseDatabase.class).build();
-        mExerciseDao = mExerciseDatabase.getExerciseDao();
+        mFitAssistDatabase = Room.inMemoryDatabaseBuilder(context, FitAssistDatabase.class).build();
+        mExerciseDao = mFitAssistDatabase.getExerciseDao();
     }
 
     @After
     public void destroyDb() {
-        mExerciseDatabase.close();
+        mFitAssistDatabase.close();
     }
 
     @Test

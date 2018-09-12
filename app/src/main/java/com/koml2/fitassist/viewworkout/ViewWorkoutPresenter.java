@@ -2,19 +2,19 @@ package com.koml2.fitassist.viewworkout;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import com.koml2.fitassist.data.Exercise;
-import com.koml2.fitassist.data.ExerciseRepository;
+import com.koml2.fitassist.data.exercise.Exercise;
+import com.koml2.fitassist.data.FitAssistRepository;
 
 import java.util.List;
 
 public class ViewWorkoutPresenter implements ViewWorkoutContract.Presenter {
 
-    private ExerciseRepository mExerciseRepository;
+    private FitAssistRepository mFitAssistRepository;
     private ViewWorkoutContract.View mWorkoutView;
 
 
-    public ViewWorkoutPresenter(@NonNull ExerciseRepository repository, @NonNull ViewWorkoutContract.View view) {
-        mExerciseRepository = repository;
+    public ViewWorkoutPresenter(@NonNull FitAssistRepository repository, @NonNull ViewWorkoutContract.View view) {
+        mFitAssistRepository = repository;
         mWorkoutView = view;
 
         mWorkoutView.setPresenter(this);
@@ -23,7 +23,7 @@ public class ViewWorkoutPresenter implements ViewWorkoutContract.Presenter {
     @Override
     public void loadExercises() {
         GetExercisesTask getExercisesTask = new GetExercisesTask(mWorkoutView);
-        getExercisesTask.execute(mExerciseRepository);
+        getExercisesTask.execute(mFitAssistRepository);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class ViewWorkoutPresenter implements ViewWorkoutContract.Presenter {
         exercise.setNotes("");
 
         AddExerciseTask addExerciseTask = new AddExerciseTask(exercise, mWorkoutView);
-        addExerciseTask.execute(mExerciseRepository);
+        addExerciseTask.execute(mFitAssistRepository);
         */
     }
 
@@ -51,7 +51,7 @@ public class ViewWorkoutPresenter implements ViewWorkoutContract.Presenter {
     }
 
 
-    private static class GetExercisesTask extends AsyncTask<ExerciseRepository, Void, List<Exercise>> {
+    private static class GetExercisesTask extends AsyncTask<FitAssistRepository, Void, List<Exercise>> {
         private ViewWorkoutContract.View mView;
 
         GetExercisesTask(ViewWorkoutContract.View view) {
@@ -59,7 +59,7 @@ public class ViewWorkoutPresenter implements ViewWorkoutContract.Presenter {
         }
 
         @Override
-        protected List<Exercise> doInBackground(ExerciseRepository... exerciseRepositories) {
+        protected List<Exercise> doInBackground(FitAssistRepository... exerciseRepositories) {
             return exerciseRepositories[0].getAllExercises();
         }
 
@@ -70,10 +70,10 @@ public class ViewWorkoutPresenter implements ViewWorkoutContract.Presenter {
         }
     }
 
-    private static class AddExerciseTask extends AsyncTask<ExerciseRepository, Void, List<Exercise>> {
+    private static class AddExerciseTask extends AsyncTask<FitAssistRepository, Void, List<Exercise>> {
         private ViewWorkoutContract.View mView;
         private Exercise mExercise;
-        private ExerciseRepository mExerciseRepository;
+        private FitAssistRepository mFitAssistRepository;
 
         AddExerciseTask(Exercise exercise, ViewWorkoutContract.View view) {
             mExercise = exercise;
@@ -81,8 +81,8 @@ public class ViewWorkoutPresenter implements ViewWorkoutContract.Presenter {
         }
 
         @Override
-        protected List<Exercise> doInBackground(ExerciseRepository... exerciseRepositories) {
-            mExerciseRepository = exerciseRepositories[0];
+        protected List<Exercise> doInBackground(FitAssistRepository... exerciseRepositories) {
+            mFitAssistRepository = exerciseRepositories[0];
             exerciseRepositories[0].insertExercise(mExercise);
             return exerciseRepositories[0].getAllExercises();
         }
@@ -91,7 +91,7 @@ public class ViewWorkoutPresenter implements ViewWorkoutContract.Presenter {
         protected void onPostExecute(List<Exercise> exercises) {
             super.onPostExecute(exercises);
             GetExercisesTask getExercisesTask = new GetExercisesTask(mView);
-            getExercisesTask.execute(mExerciseRepository);
+            getExercisesTask.execute(mFitAssistRepository);
         }
     }
 

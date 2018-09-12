@@ -2,16 +2,16 @@ package com.koml2.fitassist.addexercise;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import com.koml2.fitassist.data.Exercise;
-import com.koml2.fitassist.data.ExerciseRepository;
+import com.koml2.fitassist.data.FitAssistRepository;
+import com.koml2.fitassist.data.exercise.Exercise;
 
 public class AddExercisePresenter implements AddExerciseContract.Presenter {
 
-    private ExerciseRepository mExerciseRepository;
+    private FitAssistRepository mFitAssistRepository;
     private AddExerciseContract.View mAddExerciseView;
 
-    public AddExercisePresenter(@NonNull ExerciseRepository repository, @NonNull AddExerciseContract.View view) {
-        mExerciseRepository = repository;
+    public AddExercisePresenter(@NonNull FitAssistRepository repository, @NonNull AddExerciseContract.View view) {
+        mFitAssistRepository = repository;
         mAddExerciseView = view;
         mAddExerciseView.setPresenter(this);
     }
@@ -26,7 +26,7 @@ public class AddExercisePresenter implements AddExerciseContract.Presenter {
         exercise.setNotes(notes);
 
         AddExerciseTask addExerciseTask = new AddExerciseTask(mAddExerciseView, exercise);
-        addExerciseTask.execute(mExerciseRepository);
+        addExerciseTask.execute(mFitAssistRepository);
 
     }
 
@@ -35,7 +35,7 @@ public class AddExercisePresenter implements AddExerciseContract.Presenter {
         mAddExerciseView.showAddExerciseForm();
     }
 
-    private static class AddExerciseTask extends AsyncTask<ExerciseRepository, Void, Void> {
+    private static class AddExerciseTask extends AsyncTask<FitAssistRepository, Void, Void> {
 
         private AddExerciseContract.View mView;
         private Exercise mExercise;
@@ -46,7 +46,7 @@ public class AddExercisePresenter implements AddExerciseContract.Presenter {
         }
 
         @Override
-        protected Void doInBackground(ExerciseRepository... exerciseRepositories) {
+        protected Void doInBackground(FitAssistRepository... exerciseRepositories) {
             exerciseRepositories[0].insertExercise(mExercise);
 
             return null;

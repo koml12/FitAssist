@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import com.koml2.fitassist.R;
-import com.koml2.fitassist.data.Exercise;
-import com.koml2.fitassist.data.ExerciseRepository;
+import com.koml2.fitassist.data.exercise.Exercise;
+import com.koml2.fitassist.data.FitAssistRepository;
 import com.koml2.fitassist.viewworkout.ViewWorkoutFragment;
 import com.koml2.fitassist.viewworkout.ViewWorkoutPresenter;
 
@@ -149,15 +149,15 @@ public class EditDeleteExerciseFragment extends Fragment implements EditDeleteEx
     public void goToExerciseList() {
         ViewWorkoutFragment viewWorkoutFragment = ViewWorkoutFragment.newInstance();
         ViewWorkoutPresenter presenter = new ViewWorkoutPresenter(
-                ExerciseRepository.getInstance(getActivity().getApplicationContext()),
+                FitAssistRepository.getInstance(getActivity().getApplicationContext()),
                 viewWorkoutFragment
         );
 
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
 
-        transaction.detach(this);
         transaction.replace(R.id.fragment_view_workout_container, viewWorkoutFragment).addToBackStack(null);
+        transaction.remove(this);
         transaction.commit();
     }
 

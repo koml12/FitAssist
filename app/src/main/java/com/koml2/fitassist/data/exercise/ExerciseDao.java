@@ -1,4 +1,4 @@
-package com.koml2.fitassist.data;
+package com.koml2.fitassist.data.exercise;
 
 import android.arch.persistence.room.*;
 

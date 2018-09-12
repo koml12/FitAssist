@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.koml2.fitassist.R;
-import com.koml2.fitassist.data.Exercise;
-import com.koml2.fitassist.data.ExerciseRepository;
+import com.koml2.fitassist.data.FitAssistRepository;
+import com.koml2.fitassist.data.exercise.Exercise;
 import com.koml2.fitassist.editdeleteexercise.EditDeleteExerciseFragment;
 import com.koml2.fitassist.editdeleteexercise.EditDeleteExercisePresenter;
 
@@ -101,7 +101,7 @@ public class ViewWorkoutAdapter extends RecyclerView.Adapter<ViewWorkoutAdapter.
                     EditDeleteExerciseFragment fragment = EditDeleteExerciseFragment.newInstance(id);
 
                     EditDeleteExercisePresenter presenter =
-                            new EditDeleteExercisePresenter(ExerciseRepository.getInstance(mContext), fragment);
+                            new EditDeleteExercisePresenter(FitAssistRepository.getInstance(mContext), fragment);
 
 
                     FragmentManager manager = ((Activity) mContext).getFragmentManager();

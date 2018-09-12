@@ -2,7 +2,7 @@ package com.koml2.fitassist.viewworkout;
 
 import com.koml2.fitassist.BasePresenter;
 import com.koml2.fitassist.BaseView;
-import com.koml2.fitassist.data.Exercise;
+import com.koml2.fitassist.data.exercise.Exercise;
 
 import java.util.List;
 

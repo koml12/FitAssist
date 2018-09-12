@@ -15,8 +15,8 @@ import android.widget.Button;
 import com.koml2.fitassist.R;
 import com.koml2.fitassist.addexercise.AddExerciseFragment;
 import com.koml2.fitassist.addexercise.AddExercisePresenter;
-import com.koml2.fitassist.data.Exercise;
-import com.koml2.fitassist.data.ExerciseRepository;
+import com.koml2.fitassist.data.FitAssistRepository;
+import com.koml2.fitassist.data.exercise.Exercise;
 
 import java.util.List;
 
@@ -127,7 +127,7 @@ public class ViewWorkoutFragment extends Fragment implements ViewWorkoutContract
         AddExerciseFragment addExerciseFragment = AddExerciseFragment.newInstance();
 
         AddExercisePresenter addExercisePresenter = new AddExercisePresenter(
-                ExerciseRepository.getInstance(getActivity().getApplicationContext()),
+                FitAssistRepository.getInstance(getActivity().getApplicationContext()),
                 addExerciseFragment);
 
         FragmentManager manager = getActivity().getFragmentManager();

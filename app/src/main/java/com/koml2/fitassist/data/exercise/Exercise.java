@@ -1,20 +1,28 @@
-package com.koml2.fitassist.data;
+package com.koml2.fitassist.data.exercise;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
+import com.koml2.fitassist.data.workout.Workout;
 
 /**
  * Represents an exercise model in the database.
  */
-@Entity(tableName = "exercises")
+@Entity(tableName = "exercises", foreignKeys = @ForeignKey(
+        entity = Workout.class,
+        parentColumns = "_id",
+        childColumns = "workoutId",
+        onDelete = ForeignKey.CASCADE
+))
 public class Exercise {
 
     public Exercise() {
     }
 
-    public Exercise(int id, String name, int sets, int reps, int restTime, String notes) {
+    public Exercise(int id, int workoutId, String name, int sets, int reps, int restTime, String notes) {
         setId(id);
+        setWorkoutId(workoutId);
         setName(name);
         setSets(sets);
         setReps(reps);
@@ -23,13 +31,15 @@ public class Exercise {
     }
 
 
-
     /**
      * Unique integer id for an exercise.
      */
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
     private int id;
+
+    @ColumnInfo(name = "workoutId")
+    private int workoutId;
 
     /**
      * Name of the exercise. Can be an
@@ -127,5 +137,13 @@ public class Exercise {
         } else {
             return false;
         }
+    }
+
+    public int getWorkoutId() {
+        return workoutId;
+    }
+
+    public void setWorkoutId(int workoutId) {
+        this.workoutId = workoutId;
     }
 }

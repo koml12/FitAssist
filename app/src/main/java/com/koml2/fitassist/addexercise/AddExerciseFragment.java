@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import com.koml2.fitassist.R;
-import com.koml2.fitassist.data.ExerciseRepository;
+import com.koml2.fitassist.data.FitAssistRepository;
 import com.koml2.fitassist.viewworkout.ViewWorkoutFragment;
 import com.koml2.fitassist.viewworkout.ViewWorkoutPresenter;
 
@@ -104,7 +104,7 @@ public class AddExerciseFragment extends Fragment implements AddExerciseContract
     public void goBackToViewWorkout() {
         ViewWorkoutFragment viewWorkoutFragment = ViewWorkoutFragment.newInstance();
         ViewWorkoutPresenter viewWorkoutPresenter = new ViewWorkoutPresenter(
-                ExerciseRepository.getInstance(getActivity().getApplicationContext()),
+                FitAssistRepository.getInstance(getActivity().getApplicationContext()),
                 viewWorkoutFragment
         );
 
