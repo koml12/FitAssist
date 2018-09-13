@@ -29,20 +29,6 @@ public class ViewWorkoutPresenter implements ViewWorkoutContract.Presenter {
     @Override
     public void handleAddButtonClick(String name) {
         mWorkoutView.startAddExercise();
-
-        /*
-        Adds inside the current fragment, which we don't want.
-
-        Exercise exercise = new Exercise();
-        exercise.setName(name);
-        exercise.setReps(5);
-        exercise.setSets(5);
-        exercise.setRestTime(90);
-        exercise.setNotes("");
-
-        AddExerciseTask addExerciseTask = new AddExerciseTask(exercise, mWorkoutView);
-        addExerciseTask.execute(mFitAssistRepository);
-        */
     }
 
     @Override

@@ -29,7 +29,7 @@ public class ViewWorkoutAdapter extends RecyclerView.Adapter<ViewWorkoutAdapter.
 
 
     public ViewWorkoutAdapter(List<Exercise> exercises, Context context, ViewWorkoutFragment view) {
-        mExerciseList = exercises;
+        setExerciseList(exercises);
         mContext = context;
         mView = view;
     }
@@ -75,7 +75,7 @@ public class ViewWorkoutAdapter extends RecyclerView.Adapter<ViewWorkoutAdapter.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public View mView;
+        View mView;
         private ViewWorkoutFragment mFragment;
         private Context mContext;
         private Exercise mExercise;
