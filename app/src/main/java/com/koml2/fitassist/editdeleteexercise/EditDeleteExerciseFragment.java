@@ -17,14 +17,6 @@ import com.koml2.fitassist.data.FitAssistRepository;
 import com.koml2.fitassist.viewworkout.ViewWorkoutFragment;
 import com.koml2.fitassist.viewworkout.ViewWorkoutPresenter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link EditDeleteExerciseFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link EditDeleteExerciseFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class EditDeleteExerciseFragment extends Fragment implements EditDeleteExerciseContract.View {
 
     /**
@@ -37,6 +29,7 @@ public class EditDeleteExerciseFragment extends Fragment implements EditDeleteEx
      */
     private int mExerciseId;
 
+    private int mWorkoutId;
 
     private EditText mExerciseNameEditText;
     private EditText mSetsEditText;
@@ -58,10 +51,11 @@ public class EditDeleteExerciseFragment extends Fragment implements EditDeleteEx
      * @param exerciseId  Primary key ID of the selected exercise.
      * @return A new instance of fragment EditDeleteExerciseFragment.
      */
-    public static EditDeleteExerciseFragment newInstance(int exerciseId) {
+    public static EditDeleteExerciseFragment newInstance(int workoutId, int exerciseId) {
         EditDeleteExerciseFragment fragment = new EditDeleteExerciseFragment();
         Bundle args = new Bundle();
-        args.putInt("ID", exerciseId);
+        args.putInt("workoutId", workoutId);
+        args.putInt("exerciseId", exerciseId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,7 +65,9 @@ public class EditDeleteExerciseFragment extends Fragment implements EditDeleteEx
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            mExerciseId = bundle.getInt("ID", 0);
+            // TODO: Handle error conditions if either of these is 0.
+            mExerciseId = bundle.getInt("exerciseId", 0);
+            mWorkoutId = bundle.getInt("workoutId", 0);
         }
     }
 
@@ -147,7 +143,7 @@ public class EditDeleteExerciseFragment extends Fragment implements EditDeleteEx
     @SuppressWarnings("Duplicates")
     @Override
     public void goToExerciseList() {
-        ViewWorkoutFragment viewWorkoutFragment = ViewWorkoutFragment.newInstance();
+        ViewWorkoutFragment viewWorkoutFragment = ViewWorkoutFragment.newInstance(0);
         ViewWorkoutPresenter presenter = new ViewWorkoutPresenter(
                 FitAssistRepository.getInstance(getActivity().getApplicationContext()),
                 viewWorkoutFragment

@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +17,11 @@ import com.koml2.fitassist.data.FitAssistRepository;
 import com.koml2.fitassist.viewworkout.ViewWorkoutFragment;
 import com.koml2.fitassist.viewworkout.ViewWorkoutPresenter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AddExerciseFragment} interface
- * to handle interaction events.
- * Use the {@link AddExerciseFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AddExerciseFragment extends Fragment implements AddExerciseContract.View {
 
     private AddExerciseContract.Presenter mPresenter;
+
+    private int mWorkoutId;
 
     private EditText mExerciseNameEditText;
     private EditText mSetsEditText;
@@ -39,13 +34,23 @@ public class AddExerciseFragment extends Fragment implements AddExerciseContract
         // Required empty public constructor
     }
 
-    public static AddExerciseFragment newInstance() {
-        return new AddExerciseFragment();
+    public static AddExerciseFragment newInstance(int workoutId) {
+        AddExerciseFragment fragment = new AddExerciseFragment();
+        Bundle args = new Bundle();
+        args.putInt("workoutId", workoutId);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        if (args != null) {
+            // TODO: what if this is 0? What if args is null?
+            mWorkoutId = args.getInt("workoutId", 0);
+            Log.d("DEBUG", "AddExercise workoutId: " + mWorkoutId);
+        }
     }
 
     @Override
@@ -74,7 +79,7 @@ public class AddExerciseFragment extends Fragment implements AddExerciseContract
                 String reps = mRepsEditText.getText().toString();
                 String restTime = mRestTimeEditText.getText().toString();
                 String notes = mNotesEditText.getText().toString();
-                mPresenter.onAddButtonClick(exerciseName, reps, sets, restTime, notes);
+                mPresenter.onAddButtonClick(exerciseName, reps, sets, restTime, notes, mWorkoutId);
             }
         });
     }
@@ -102,7 +107,7 @@ public class AddExerciseFragment extends Fragment implements AddExerciseContract
     @SuppressWarnings("Duplicates")
     @Override
     public void goBackToViewWorkout() {
-        ViewWorkoutFragment viewWorkoutFragment = ViewWorkoutFragment.newInstance();
+        ViewWorkoutFragment viewWorkoutFragment = ViewWorkoutFragment.newInstance(mWorkoutId);
         ViewWorkoutPresenter viewWorkoutPresenter = new ViewWorkoutPresenter(
                 FitAssistRepository.getInstance(getActivity().getApplicationContext()),
                 viewWorkoutFragment

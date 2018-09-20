@@ -15,6 +15,7 @@ public interface AddExerciseContract {
                               String repsStr,
                               String setsStr,
                               String restTimeStr,
-                              String notes);
+                              String notes,
+                              int workoutId);
     }
 }

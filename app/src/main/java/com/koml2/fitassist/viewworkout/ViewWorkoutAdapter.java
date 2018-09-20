@@ -84,7 +84,7 @@ public class ViewWorkoutAdapter extends RecyclerView.Adapter<ViewWorkoutAdapter.
             mExercise = exercise;
         }
 
-        public ViewHolder(View view, Exercise exercise, Context context, ViewWorkoutFragment fragment) {
+        public ViewHolder(View view, final Exercise exercise, Context context, ViewWorkoutFragment fragment) {
             super(view);
             mView = view;
             mFragment = fragment;
@@ -98,7 +98,7 @@ public class ViewWorkoutAdapter extends RecyclerView.Adapter<ViewWorkoutAdapter.
 
                     Log.d("DEBUG", "exerciseID: " + id);
 
-                    EditDeleteExerciseFragment fragment = EditDeleteExerciseFragment.newInstance(id);
+                    EditDeleteExerciseFragment fragment = EditDeleteExerciseFragment.newInstance(exercise.getWorkoutId(), id);
 
                     EditDeleteExercisePresenter presenter =
                             new EditDeleteExercisePresenter(FitAssistRepository.getInstance(mContext), fragment);

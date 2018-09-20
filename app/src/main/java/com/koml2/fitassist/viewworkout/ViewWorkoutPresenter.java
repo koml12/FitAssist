@@ -21,8 +21,8 @@ public class ViewWorkoutPresenter implements ViewWorkoutContract.Presenter {
     }
 
     @Override
-    public void loadExercises() {
-        GetExercisesTask getExercisesTask = new GetExercisesTask(mWorkoutView);
+    public void loadExercises(int workoutId) {
+        GetExercisesTask getExercisesTask = new GetExercisesTask(mWorkoutView, workoutId);
         getExercisesTask.execute(mFitAssistRepository);
     }
 
@@ -33,20 +33,22 @@ public class ViewWorkoutPresenter implements ViewWorkoutContract.Presenter {
 
     @Override
     public void start() {
-        loadExercises();
+
     }
 
 
     private static class GetExercisesTask extends AsyncTask<FitAssistRepository, Void, List<Exercise>> {
         private ViewWorkoutContract.View mView;
+        private int mWorkoutId;
 
-        GetExercisesTask(ViewWorkoutContract.View view) {
+        GetExercisesTask(ViewWorkoutContract.View view, int workoutId) {
             mView = view;
+            mWorkoutId = workoutId;
         }
 
         @Override
         protected List<Exercise> doInBackground(FitAssistRepository... exerciseRepositories) {
-            return exerciseRepositories[0].getAllExercises();
+            return exerciseRepositories[0].getExercisesForWorkout(mWorkoutId);
         }
 
         @Override
@@ -60,10 +62,12 @@ public class ViewWorkoutPresenter implements ViewWorkoutContract.Presenter {
         private ViewWorkoutContract.View mView;
         private Exercise mExercise;
         private FitAssistRepository mFitAssistRepository;
+        private int mWorkoutId;
 
-        AddExerciseTask(Exercise exercise, ViewWorkoutContract.View view) {
+        AddExerciseTask(Exercise exercise, ViewWorkoutContract.View view, int workoutId) {
             mExercise = exercise;
             mView = view;
+            mWorkoutId = workoutId;
         }
 
         @Override
@@ -76,7 +80,7 @@ public class ViewWorkoutPresenter implements ViewWorkoutContract.Presenter {
         @Override
         protected void onPostExecute(List<Exercise> exercises) {
             super.onPostExecute(exercises);
-            GetExercisesTask getExercisesTask = new GetExercisesTask(mView);
+            GetExercisesTask getExercisesTask = new GetExercisesTask(mView, mWorkoutId);
             getExercisesTask.execute(mFitAssistRepository);
         }
     }

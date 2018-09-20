@@ -17,8 +17,9 @@ public class AddExercisePresenter implements AddExerciseContract.Presenter {
     }
 
     @Override
-    public void onAddButtonClick(String name, String repsStr, String setsStr, String restTimeStr, String notes) {
+    public void onAddButtonClick(String name, String repsStr, String setsStr, String restTimeStr, String notes, int workoutId) {
         Exercise exercise = new Exercise();
+        exercise.setWorkoutId(workoutId);
         exercise.setName(name);
         exercise.setReps(Integer.parseInt(repsStr));
         exercise.setSets(Integer.parseInt(setsStr));

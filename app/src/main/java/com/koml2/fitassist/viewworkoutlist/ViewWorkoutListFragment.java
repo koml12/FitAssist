@@ -2,6 +2,8 @@ package com.koml2.fitassist.viewworkoutlist;
 
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -12,7 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.koml2.fitassist.R;
+import com.koml2.fitassist.addworkout.AddWorkoutFragment;
+import com.koml2.fitassist.addworkout.AddWorkoutPresenter;
+import com.koml2.fitassist.data.FitAssistRepository;
 import com.koml2.fitassist.data.workout.Workout;
+import com.koml2.fitassist.viewworkout.ViewWorkoutFragment;
+import com.koml2.fitassist.viewworkout.ViewWorkoutPresenter;
 
 import java.util.List;
 
@@ -82,7 +89,31 @@ public class ViewWorkoutListFragment extends Fragment implements ViewWorkoutList
 
     @Override
     public void sendToAddWorkout() {
-        // TODO: implement this when the "add workout" component is added.
+        AddWorkoutFragment fragment = AddWorkoutFragment.newInstance();
+        AddWorkoutPresenter presenter = new AddWorkoutPresenter(
+                FitAssistRepository.getInstance(getActivity().getApplicationContext()),
+                fragment);
+
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.hide(this);
+        transaction.replace(R.id.fragment_add_workout_container, fragment).addToBackStack(null);
+        transaction.commit();
+    }
+
+    @Override
+    public void toViewWorkout(int workoutId) {
+        ViewWorkoutFragment fragment = ViewWorkoutFragment.newInstance(workoutId);
+        ViewWorkoutPresenter presenter = new ViewWorkoutPresenter(
+                FitAssistRepository.getInstance(getActivity().getApplicationContext()),
+                fragment
+        );
+
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.hide(this);
+        transaction.replace(R.id.fragment_view_workout_container, fragment).addToBackStack(null);
+        transaction.commit();
     }
 
     @Override

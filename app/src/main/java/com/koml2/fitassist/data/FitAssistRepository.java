@@ -46,8 +46,13 @@ public class FitAssistRepository {
         mExerciseDao.deleteExercise(exercise);
     }
 
+
     public List<Exercise> getAllExercises() {
         return mExerciseDao.getAllExercises();
+    }
+
+    public List<Exercise> getExercisesForWorkout(int workoutId) {
+        return mExerciseDao.getExercisesForWorkout(workoutId);
     }
 
     public Exercise getExerciseById(int id) {

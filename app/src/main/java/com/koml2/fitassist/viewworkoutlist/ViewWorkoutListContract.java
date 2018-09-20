@@ -11,6 +11,8 @@ public interface ViewWorkoutListContract {
         void showWorkouts(List<Workout> workouts);
 
         void sendToAddWorkout();
+
+        void toViewWorkout(int workoutId);
     }
 
     interface Presenter extends BasePresenter {

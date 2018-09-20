@@ -20,17 +20,12 @@ import com.koml2.fitassist.data.exercise.Exercise;
 
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ViewWorkoutFragment} interface
- * to handle interaction events.
- * Use the {@link ViewWorkoutFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ViewWorkoutFragment extends Fragment implements ViewWorkoutContract.View {
 
     private ViewWorkoutContract.Presenter mPresenter;
+
+    private int mWorkoutId;
 
     private RecyclerView mExerciseRecyclerView;
     private ViewWorkoutAdapter mAdapter = null;
@@ -42,20 +37,22 @@ public class ViewWorkoutFragment extends Fragment implements ViewWorkoutContract
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment ViewWorkoutFragment.
-     */
-    public static ViewWorkoutFragment newInstance() {
-        return new ViewWorkoutFragment();
+    public static ViewWorkoutFragment newInstance(int workoutId) {
+        ViewWorkoutFragment fragment =  new ViewWorkoutFragment();
+        Bundle args = new Bundle();
+        args.putInt("workoutId", workoutId);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Bundle args = getArguments();
+        if (args != null) {
+            mWorkoutId = args.getInt("workoutId", 0);
+            Log.d("DEBUG", "ViewWorkout workoutId: " + mWorkoutId);
+        }
     }
 
     @Override
@@ -87,7 +84,7 @@ public class ViewWorkoutFragment extends Fragment implements ViewWorkoutContract
             }
         });
 
-        mPresenter.loadExercises();
+        mPresenter.loadExercises(mWorkoutId);
     }
 
     @Override
@@ -124,7 +121,7 @@ public class ViewWorkoutFragment extends Fragment implements ViewWorkoutContract
 
     @Override
     public void startAddExercise() {
-        AddExerciseFragment addExerciseFragment = AddExerciseFragment.newInstance();
+        AddExerciseFragment addExerciseFragment = AddExerciseFragment.newInstance(mWorkoutId);
 
         AddExercisePresenter addExercisePresenter = new AddExercisePresenter(
                 FitAssistRepository.getInstance(getActivity().getApplicationContext()),
@@ -139,7 +136,7 @@ public class ViewWorkoutFragment extends Fragment implements ViewWorkoutContract
     }
 
     @Override
-    public void setPresenter(Object presenter) {
-        mPresenter = (ViewWorkoutContract.Presenter) presenter;
+    public void setPresenter(ViewWorkoutPresenter presenter) {
+        mPresenter = presenter;
     }
 }

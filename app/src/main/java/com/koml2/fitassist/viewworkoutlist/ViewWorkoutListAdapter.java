@@ -66,6 +66,13 @@ public class ViewWorkoutListAdapter extends RecyclerView.Adapter<ViewWorkoutList
             mWorkout = workout;
             mContext = context;
             mFragment = fragment;
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mFragment.toViewWorkout(mWorkout.getId());
+                }
+            });
         }
 
         public void setWorkout(Workout workout) {

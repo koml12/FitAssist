@@ -24,7 +24,7 @@ public abstract class FitAssistDatabase extends RoomDatabase {
                     context.getApplicationContext(),
                     FitAssistDatabase.class,
                     "exercise-database"
-            ).allowMainThreadQueries().build();
+            ).build();
         }
         return INSTANCE;
     }

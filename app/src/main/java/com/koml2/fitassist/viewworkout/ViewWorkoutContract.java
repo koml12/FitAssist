@@ -7,7 +7,7 @@ import com.koml2.fitassist.data.exercise.Exercise;
 import java.util.List;
 
 public interface ViewWorkoutContract {
-    interface View extends BaseView {
+    interface View extends BaseView<ViewWorkoutPresenter> {
         void refreshExercises();
 
         void showExercises(List<Exercise> exercises);
@@ -18,7 +18,7 @@ public interface ViewWorkoutContract {
     }
 
     interface Presenter extends BasePresenter {
-        void loadExercises();
+        void loadExercises(int workoutId);
 
         void handleAddButtonClick(String name);
     }
