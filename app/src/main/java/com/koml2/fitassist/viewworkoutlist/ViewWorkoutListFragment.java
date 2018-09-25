@@ -4,6 +4,7 @@ package com.koml2.fitassist.viewworkoutlist;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import com.koml2.fitassist.R;
 import com.koml2.fitassist.addworkout.AddWorkoutFragment;
 import com.koml2.fitassist.addworkout.AddWorkoutPresenter;
@@ -76,6 +78,16 @@ public class ViewWorkoutListFragment extends Fragment implements ViewWorkoutList
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("DEBUG", "ViewWorkoutList onResume");
+
+        mPresenter.loadWorkouts();
+
+
+    }
+
+    @Override
     public void showWorkouts(List<Workout> workouts) {
         if (mAdapter == null) {
             mAdapter = new ViewWorkoutListAdapter(workouts, getContext(), this);
@@ -89,6 +101,9 @@ public class ViewWorkoutListFragment extends Fragment implements ViewWorkoutList
 
     @Override
     public void sendToAddWorkout() {
+
+        mAdapter = null;
+
         AddWorkoutFragment fragment = AddWorkoutFragment.newInstance();
         AddWorkoutPresenter presenter = new AddWorkoutPresenter(
                 FitAssistRepository.getInstance(getActivity().getApplicationContext()),
@@ -97,12 +112,20 @@ public class ViewWorkoutListFragment extends Fragment implements ViewWorkoutList
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.hide(this);
-        transaction.replace(R.id.fragment_add_workout_container, fragment).addToBackStack(null);
+
+        //TODO
+        //transaction.replace(R.id.fragment_add_workout_container, fragment);
+        transaction.replace(R.id.fragment_container, fragment);
+
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 
     @Override
     public void toViewWorkout(int workoutId) {
+
+        mAdapter = null;    // Force refresh when back is pressed in the ViewWorkout fragment.
+
         ViewWorkoutFragment fragment = ViewWorkoutFragment.newInstance(workoutId);
         ViewWorkoutPresenter presenter = new ViewWorkoutPresenter(
                 FitAssistRepository.getInstance(getActivity().getApplicationContext()),
@@ -112,7 +135,14 @@ public class ViewWorkoutListFragment extends Fragment implements ViewWorkoutList
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.hide(this);
-        transaction.replace(R.id.fragment_view_workout_container, fragment).addToBackStack(null);
+
+
+        //TODO
+        //transaction.replace(R.id.fragment_view_workout_container, fragment);
+        transaction.replace(R.id.fragment_container, fragment);
+
+
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 

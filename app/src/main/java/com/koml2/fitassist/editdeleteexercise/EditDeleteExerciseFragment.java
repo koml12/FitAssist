@@ -101,7 +101,7 @@ public class EditDeleteExerciseFragment extends Fragment implements EditDeleteEx
                 String restTime = mRestTimeEditText.getText().toString();
                 String notes = mNotesEditText.getText().toString();
 
-                mPresenter.handleUpdateClick(mExerciseId, name, reps, sets, restTime, notes);
+                mPresenter.handleUpdateClick(mWorkoutId, mExerciseId, name, reps, sets, restTime, notes);
             }
         });
 
@@ -114,7 +114,7 @@ public class EditDeleteExerciseFragment extends Fragment implements EditDeleteEx
                 String restTime = mRestTimeEditText.getText().toString();
                 String notes = mNotesEditText.getText().toString();
 
-                mPresenter.handleDeleteClick(mExerciseId, name, sets, reps, restTime, notes);
+                mPresenter.handleDeleteClick(mWorkoutId, mExerciseId, name, sets, reps, restTime, notes);
             }
         });
 
@@ -129,17 +129,6 @@ public class EditDeleteExerciseFragment extends Fragment implements EditDeleteEx
         mNotesEditText.setText(exercise.getNotes());
     }
 
-    @Override
-    public void onUpdateClick(String name, String setsStr, String repsStr, String restTimeStr, String notes) {
-        mPresenter.handleUpdateClick(mExerciseId, name, setsStr, repsStr, restTimeStr, notes);
-
-    }
-
-    @Override
-    public void onDeleteClick(String name, String setsStr, String repsStr, String restTimeStr, String notes) {
-        mPresenter.handleDeleteClick(mExerciseId, name, setsStr, repsStr, restTimeStr, notes);
-    }
-
     @SuppressWarnings("Duplicates")
     @Override
     public void goToExerciseList() {
@@ -152,8 +141,10 @@ public class EditDeleteExerciseFragment extends Fragment implements EditDeleteEx
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
 
-        transaction.replace(R.id.fragment_view_workout_container, viewWorkoutFragment).addToBackStack(null);
         transaction.remove(this);
+        transaction.add(R.id.fragment_container, viewWorkoutFragment);
+
+        manager.popBackStackImmediate();
         transaction.commit();
     }
 

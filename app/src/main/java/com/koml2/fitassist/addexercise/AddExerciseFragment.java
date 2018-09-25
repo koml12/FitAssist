@@ -79,6 +79,7 @@ public class AddExerciseFragment extends Fragment implements AddExerciseContract
                 String reps = mRepsEditText.getText().toString();
                 String restTime = mRestTimeEditText.getText().toString();
                 String notes = mNotesEditText.getText().toString();
+
                 mPresenter.onAddButtonClick(exerciseName, reps, sets, restTime, notes, mWorkoutId);
             }
         });
@@ -115,8 +116,11 @@ public class AddExerciseFragment extends Fragment implements AddExerciseContract
 
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.detach(this);
-        transaction.replace(R.id.fragment_view_workout_container, viewWorkoutFragment).addToBackStack(null);
+
+        transaction.remove(this);
+        transaction.add(R.id.fragment_container, viewWorkoutFragment);
+
+        manager.popBackStackImmediate();
         transaction.commit();
     }
 

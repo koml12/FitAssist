@@ -94,22 +94,7 @@ public class ViewWorkoutAdapter extends RecyclerView.Adapter<ViewWorkoutAdapter.
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int id = mExercise.getId();
-
-                    Log.d("DEBUG", "exerciseID: " + id);
-
-                    EditDeleteExerciseFragment fragment = EditDeleteExerciseFragment.newInstance(exercise.getWorkoutId(), id);
-
-                    EditDeleteExercisePresenter presenter =
-                            new EditDeleteExercisePresenter(FitAssistRepository.getInstance(mContext), fragment);
-
-
-                    FragmentManager manager = ((Activity) mContext).getFragmentManager();
-                    FragmentTransaction transaction = manager.beginTransaction();
-                    transaction.add(R.id.fragment_edit_delete_exercise_container, fragment).addToBackStack(null);
-                    transaction.hide(mFragment);
-                    transaction.commit();
-
+                    mFragment.startEditDeleteExercise(mExercise.getWorkoutId(), mExercise.getId());
                 }
             });
 

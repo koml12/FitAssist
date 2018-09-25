@@ -15,6 +15,8 @@ public interface ViewWorkoutContract {
         void onAddButtonClick(android.view.View view);
 
         void startAddExercise();
+
+        void startEditDeleteExercise(int workoutId, int exerciseId);
     }
 
     interface Presenter extends BasePresenter {

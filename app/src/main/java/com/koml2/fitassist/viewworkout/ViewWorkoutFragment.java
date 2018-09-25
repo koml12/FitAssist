@@ -17,6 +17,8 @@ import com.koml2.fitassist.addexercise.AddExerciseFragment;
 import com.koml2.fitassist.addexercise.AddExercisePresenter;
 import com.koml2.fitassist.data.FitAssistRepository;
 import com.koml2.fitassist.data.exercise.Exercise;
+import com.koml2.fitassist.editdeleteexercise.EditDeleteExerciseFragment;
+import com.koml2.fitassist.editdeleteexercise.EditDeleteExercisePresenter;
 
 import java.util.List;
 
@@ -87,6 +89,16 @@ public class ViewWorkoutFragment extends Fragment implements ViewWorkoutContract
         mPresenter.loadExercises(mWorkoutId);
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdapter = null;
+        mExerciseRecyclerView.swapAdapter(null, false);
+        mPresenter.loadExercises(mWorkoutId);
+        Log.d("DEBUG", "onResume");
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -121,6 +133,11 @@ public class ViewWorkoutFragment extends Fragment implements ViewWorkoutContract
 
     @Override
     public void startAddExercise() {
+        mAdapter = null;
+        if (mAdapter != null) {
+            Log.d("DEBUG", "Adapter is not null");
+        }
+
         AddExerciseFragment addExerciseFragment = AddExerciseFragment.newInstance(mWorkoutId);
 
         AddExercisePresenter addExercisePresenter = new AddExercisePresenter(
@@ -129,10 +146,32 @@ public class ViewWorkoutFragment extends Fragment implements ViewWorkoutContract
 
         FragmentManager manager = getActivity().getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.fragment_add_exercise_container, addExerciseFragment).addToBackStack(null);
-        transaction.hide(this);
+        transaction.replace(R.id.fragment_container, addExerciseFragment);
+        transaction.addToBackStack(null);
         transaction.commit();
 
+    }
+
+    @Override
+    public void startEditDeleteExercise(int workoutId, int exerciseId) {
+
+        mAdapter = null;
+
+        if (mAdapter != null) {
+            Log.d("DEBUG", "Adapter is not null");
+        }
+
+        EditDeleteExerciseFragment fragment = EditDeleteExerciseFragment.newInstance(workoutId, exerciseId);
+        EditDeleteExercisePresenter presenter = new EditDeleteExercisePresenter(
+                FitAssistRepository.getInstance(getActivity().getApplicationContext()),
+                fragment
+        );
+
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override

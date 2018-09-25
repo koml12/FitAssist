@@ -3,14 +3,17 @@ package com.koml2.fitassist.addworkout;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -84,8 +87,8 @@ public class AddWorkoutFragment extends Fragment implements AddWorkoutContract.V
 
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.detach(this);
-        transaction.replace(R.id.fragment_add_workout_container, fragment).addToBackStack(null);
+        transaction.replace(R.id.fragment_container, fragment);
+        manager.popBackStackImmediate();
         transaction.commit();
     }
 

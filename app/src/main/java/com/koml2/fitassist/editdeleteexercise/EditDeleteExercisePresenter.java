@@ -35,23 +35,27 @@ public class EditDeleteExercisePresenter implements EditDeleteExerciseContract.P
     }
 
     @Override
-    public void handleUpdateClick(int id, String name, String setsStr, String repsStr, String restTimeStr, String notes) {
+    public void handleUpdateClick(int workoutId, int exerciseId, String name, String setsStr, String repsStr,
+                                  String restTimeStr, String notes) {
+
         int sets = Integer.parseInt(setsStr);
         int reps = Integer.parseInt(repsStr);
         int restTime = Integer.parseInt(restTimeStr);
 
-        Exercise exercise = new Exercise(id, 0, name, sets, reps, restTime, notes);
+        Exercise exercise = new Exercise(exerciseId, workoutId, name, sets, reps, restTime, notes);
         UpdateExerciseTask updateExerciseTask = new UpdateExerciseTask(mEditDeleteExerciseView, exercise);
         updateExerciseTask.execute(mFitAssistRepository);
     }
 
     @Override
-    public void handleDeleteClick(int id, String name, String setsStr, String repsStr, String restTimeStr, String notes) {
+    public void handleDeleteClick(int workoutId, int exerciseId, String name, String setsStr, String repsStr,
+                                  String restTimeStr, String notes) {
+
         int sets = Integer.parseInt(setsStr);
         int reps = Integer.parseInt(repsStr);
         int restTime = Integer.parseInt(restTimeStr);
 
-        Exercise exercise = new Exercise(id, 0, name, sets, reps, restTime, notes);
+        Exercise exercise = new Exercise(exerciseId, workoutId, name, sets, reps, restTime, notes);
         DeleteExerciseTask deleteExerciseTask = new DeleteExerciseTask(mEditDeleteExerciseView, exercise);
         deleteExerciseTask.execute(mFitAssistRepository);
     }

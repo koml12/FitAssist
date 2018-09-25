@@ -8,18 +8,30 @@ public interface EditDeleteExerciseContract {
     interface View extends BaseView<Presenter> {
         void setExerciseDataValues(Exercise exercise);
 
-        void onUpdateClick(String name, String setsStr, String repsStr, String restTimeStr, String notes);
-
-        void onDeleteClick(String name, String setsStr, String repsStr, String restTimeStr, String notes);
-
         void goToExerciseList();
     }
 
     interface Presenter extends BasePresenter {
         void getExercise(int id);
 
-        void handleUpdateClick(int id, String name, String setsStr, String repsStr, String restTimeStr, String notes);
+        void handleUpdateClick(
+                int workoutId,
+                int exerciseId,
+                String name,
+                String setsStr,
+                String repsStr,
+                String restTimeStr,
+                String notes
+        );
 
-        void handleDeleteClick(int id, String name, String setsStr, String repsStr, String restTimeStr, String notes);
+        void handleDeleteClick(
+                int workoutId,
+                int exerciseId,
+                String name,
+                String setsStr,
+                String repsStr,
+                String restTimeStr,
+                String notes
+        );
     }
 }
